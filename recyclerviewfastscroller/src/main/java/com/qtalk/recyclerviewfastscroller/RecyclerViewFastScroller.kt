@@ -939,28 +939,12 @@ class RecyclerViewFastScroller @JvmOverloads constructor(
                         else -> error("The orientation of the LinearLayoutManager should be horizontal or vertical")
                     }
 
-                // check if the layout is scrollable. i.e. range is large than extent, else disable fast scrolling and track touches.
                 if (extent < range) {
-                    handleImageView.animateVisibility()
-                    trackView.isVisible = true
-                    handleImageView.isVisible = true
+                    val error = extent.toFloat() * offset / range
+                    val finalOffset: Float = (trackLength - handleLength) * ((error + offset) / range)
 
-                    handleImageView.isEnabled = true
-                    trackView.isEnabled = true
-                } else {
-                    handleImageView.animateVisibility(false)
-                    trackView.isVisible = false
-                    handleImageView.isVisible = false
-
-                    trackView.isEnabled = false
-                    handleImageView.isEnabled = false
-                    return
+                    moveHandle(finalOffset)
                 }
-
-                val error = extent.toFloat() * offset / range
-                val finalOffset: Float = (trackLength - handleLength) * ((error + offset) / range)
-
-                moveHandle(finalOffset)
             }
         }
     }
