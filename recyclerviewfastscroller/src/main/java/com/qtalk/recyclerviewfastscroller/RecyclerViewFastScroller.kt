@@ -414,6 +414,9 @@ class RecyclerViewFastScroller @JvmOverloads constructor(
                 when (touchAction) {
                     MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> {
 
+                        // disallow parent to spy on touch events
+                        requestDisallowInterceptTouchEvent(true)
+
                         if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                             if (!adapterDataObserver.isInitialized()) {
                                 registerDataObserver()
